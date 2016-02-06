@@ -2,15 +2,20 @@ var express = require('express');
 var config = require('konfig')();
 var http = require('https');
 var router = express.Router();
+var appendSearch = require('../modules/appendNewSearch.js');
 
 var url = 'https://www.googleapis.com/customsearch/v1?key=' + config.app.apiKey + '&cx=' + config.app.searchId + '&searchType=image';
 
 
 router.get('/:sTerm', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
-  
   var searchTerm = "&q=" + req.params.sTerm,
       offset = "&start=" + (req.query.offset || 1);
+      
+  appendSearch(req.params.sTerm, config.app.searchList, function(err, data) {
+    if (err) console.error(err);
+  });
+  
   http.get(url + searchTerm + offset, function(apiRes) {
     var test = ''; 
     apiRes.on('data', function(chunk) {

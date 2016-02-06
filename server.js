@@ -9,7 +9,7 @@ var app = express();
 
 
 //routes
-app.use('/searchimages', require('./routes/searchImages.js'));
+app.use('/search', require('./routes/searchImages.js'));
 app.use('/recent', require('./routes/recentSearches.js'));
 
 //start server
